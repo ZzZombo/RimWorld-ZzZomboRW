@@ -1,62 +1,49 @@
-﻿using UnityEngine;
-using HarmonyLib;
+using System.Xml;
 using Verse;
 using RimWorld;
 
 internal static class MOD
 {
-    public const string NAME = "MOD";
+	public const string NAME = "ZzZombo's Framework";
 }
 
 namespace ZzZomboRW
 {
-    public class CompProperties_X : CompProperties
-    {
-        public bool enabled = true;
-        public int data = -1;
-        public CompProperties_X()
-        {
-            this.compClass = typeof(CompX);
-            Log.Message($"[{this.GetType().FullName}] Initialized:\n" +
-                $"\tCurrent ammo: {this.data};\n" +
-                $"\tEnabled: {this.enabled}.");
-        }
-
-    }
-    public class CompX : ThingComp
-    {
-        public CompProperties_X Props => (CompProperties_X)this.props;
-        public bool Enabled => this.Props.enabled;
-        public override void Initialize(CompProperties props)
-        {
-            base.Initialize(props);
-            Log.Message($"[{this.GetType().FullName}] Initialized for {this.parent}:\n" +
-                $"\tData: {this.Props.data};\n" +
-                $"\tEnabled: {this.Props.enabled}.");
-        }
-
-        public override void PostExposeData()
-        {
-            Scribe_Values.Look(ref this.Props.data, "data", 1, false);
-            Scribe_Values.Look(ref this.Props.enabled, "enabled", true, false);
-        }
-
-        [StaticConstructorOnStartup]
-        internal static class HarmonyHelper
-        {
-            static HarmonyHelper()
-            {
-                Harmony harmony = new Harmony($"ZzZomboRW.{MOD.NAME}");
-                harmony.PatchAll();
-            }
-
-            [HarmonyPatch(typeof(object), nameof(object.Equals))]
-            public static class Class_MethodPatch
-            {
-                private static void Postfix(ref object __result, object __instance)
-                {
-                }
-            }
-        }
-    }
+	public class PatchOperationAddNode: PatchOperationPathed
+	{
+		private string name;
+		private XmlContainer value;
+		protected override bool ApplyWorker(XmlDocument xml)
+		{
+			var result = false;
+			var nodes = xml.SelectNodes(this.xpath);
+			foreach(var obj in nodes)
+			{
+				if(obj is XmlNode xmlNode)
+				{
+					if(name.NullOrEmpty())
+					{
+						foreach(var child in this.value.node.ChildNodes)
+						{
+							xmlNode.AppendChild(xmlNode.OwnerDocument.ImportNode((XmlNode)child, true));
+						}
+						result = true;
+						continue;
+					}
+					XmlNode container = xmlNode[this.name];
+					if(container == null)
+					{
+						container = xmlNode.OwnerDocument.CreateElement(this.name);
+						xmlNode.AppendChild(container);
+					}
+					foreach(var child in this.value.node.ChildNodes)
+					{
+						container.AppendChild(xmlNode.OwnerDocument.ImportNode((XmlNode)child, true));
+					}
+					result = true;
+				}
+			}
+			return result;
+		}
+	}
 }
