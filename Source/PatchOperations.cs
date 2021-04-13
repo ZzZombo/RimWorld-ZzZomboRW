@@ -13,7 +13,7 @@ namespace ZzZomboRW
 	{
 		private string name;
 		private XmlContainer value;
-		protected override bool ApplyWorker(XmlDocument xml)
+		public override bool ApplyWorker(XmlDocument xml)
 		{
 			var result = false;
 			var nodes = xml.SelectNodes(this.xpath);
