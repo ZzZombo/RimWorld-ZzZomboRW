@@ -9,7 +9,7 @@ internal static class MOD
 
 namespace ZzZomboRW
 {
-	public class PatchOperationAddNode: PatchOperationPathed
+	public class PatchOperationAddNodeWithDefault: PatchOperationPathed
 	{
 		private string name;
 		private XmlContainer value;
