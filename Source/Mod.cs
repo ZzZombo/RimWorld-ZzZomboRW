@@ -4,7 +4,7 @@ using RimWorld;
 
 internal static class MOD
 {
-	public const string NAME = "MOD";
+	public const string NAME = "Framework";
 }
 
 namespace ZzZomboRW

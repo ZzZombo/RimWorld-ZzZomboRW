@@ -2,11 +2,6 @@ using System.Xml;
 using Verse;
 using RimWorld;
 
-internal static class MOD
-{
-	public const string NAME = "ZzZombo's Framework";
-}
-
 namespace ZzZomboRW
 {
 	public class PatchOperationAddNodeWithDefault: PatchOperationPathed
