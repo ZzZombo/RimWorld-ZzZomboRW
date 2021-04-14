@@ -16,7 +16,7 @@
 		<AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<PackageProjectUrl>https://github.com/ZzZombo/RimWorld-ZzZomboRW</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/ZzZombo/RimWorld-ZzZomboRW</RepositoryUrl>
+		<RepositoryUrl>https://github.com/ZzZombo/RimWorld-ZzZomboRW.git</RepositoryUrl>
 		<RepositoryType>Git</RepositoryType>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
