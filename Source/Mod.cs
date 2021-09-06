@@ -1,7 +1,5 @@
-using UnityEngine;
-using Verse;
-using RimWorld;
 using System;
+using Verse;
 
 internal static class MOD
 {
@@ -13,12 +11,12 @@ internal static class MOD
 namespace ZzZomboRW
 {
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-	public class HotSwappableAttribute : Attribute
+	public class HotSwappableAttribute: Attribute
 	{
 	}
 
 	[HotSwappable]
-	internal class Mod : Verse.Mod
+	internal class Mod: Verse.Mod
 	{
 		private ModSettings settings;
 		public static string ModID => $"{typeof(Mod).Namespace}.{MOD.ID}";
@@ -35,12 +33,12 @@ namespace ZzZomboRW
 		} */
 		public override string SettingsCategory()
 		{
-			if (!MOD.SHOW_SETTINGS)
+			if(!MOD.SHOW_SETTINGS)
 			{
 				return null;
 			}
 #pragma warning disable CS0162 // Unreachable code detected.
-			if (ModID.TryTranslate(out var r))
+			if(ModID.TryTranslate(out var r))
 			{
 				return r;
 			}
