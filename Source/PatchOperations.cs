@@ -8,7 +8,7 @@ namespace ZzZomboRW
 	{
 		private string name;
 		private XmlContainer value;
-		public override bool ApplyWorker(XmlDocument xml)
+		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			var result = false;
 			var nodes = xml.SelectNodes(this.xpath);
