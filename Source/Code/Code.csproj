@@ -35,6 +35,7 @@
 			<PropertyGroup>
 				<DefineConstants>$(DefineConstants);TRACE</DefineConstants>
 				<DebugSymbols>false</DebugSymbols>
+				<DebugType>none</DebugType>
 				<ErrorReport>prompt</ErrorReport>
 				<Optimize>true</Optimize>
 				<WarningLevel>4</WarningLevel>
@@ -140,14 +141,12 @@
 	<ItemGroup Label="Internal items and targets, for the build process start here">
 		<LoadFolders Include="$(C_SourceContentDir)loadFolders.xml" />
 		<FilesToDelete Include="@(LoadFolders->'$(C_ModRootDir)\%(Filename)%(Extension)')" />
+		<CopyBinaries Include="$(OutputPath)$(C_BuildAssemblyName).*" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(C_TargetGameVer)' == 'v1.0'" Label="Files to clean up before build, for v1.0">
 		<!-- Remove stale binaries from other configurations. -->
 		<FilesToDelete Include="$(C_ModRootDir)$(C_AssemblyCopyPath)$(C_AssemblyName).*" Condition="$(Configuration) != Release" />
 		<FilesToDelete Include="$(C_ModRootDir)$(C_AssemblyCopyPath)$(C_AssemblyName)$(VersionSuffix).*" Condition="$(Configuration) == Release" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\..\..\ZzZomboRW\Source\Code\Framework.csproj" />
 	</ItemGroup>
 	<!-- Remove stale binaries from other configurations. Not needed for v1.x, as `loadFolders.xml` takes care of using the correct binaries. -->
 	<!--<ItemGroup Condition="'$(Platform)' != 'v1.0'" Label="Files to clean up before build, for v1.x">
@@ -159,12 +158,12 @@
 		<Delete Files="@(FilesToDelete)" />
 		<Message Text="Cleanup done." Importance="high" />
 	</Target>
-	<Target Name="PostBuildStep_GetBinaries" BeforeTargets="AfterBuild">
+	<!--<Target Name="PostBuildStep_GetBinaries" BeforeTargets="AfterBuild">
 		<ItemGroup>
 			<CopyBinaries Include="$(OutputPath)$(C_BuildAssemblyName).*" />
 		</ItemGroup>
-	</Target>
-	<Target Name="PostBuildStep_CopyBinaries" AfterTargets="PostBuildStep_GetBinaries" DependsOnTargets="PostBuildStep_GetBinaries" Inputs="@(CopyBinaries)"
+	</Target>-->
+	<Target Name="PostBuildStep_CopyBinaries" AfterTargets="PostBuildStep_GetBinaries" DependsOnTargets="" Inputs="@(CopyBinaries)"
 			Outputs="@(CopyBinaries->'$(C_ModRootDir)$(C_AssemblyCopyPath)$(C_CopyAssemblyName)%(Extension)')">
 		<Message Text="Copying binaries: @(CopyBinaries) to @(CopyBinaries->'$(C_ModRootDir)$(C_AssemblyCopyPath)$(C_CopyAssemblyName)%(Extension)')…"
 			Importance="high" />
@@ -195,7 +194,7 @@
 			WorkingDirectory="$(C_UtilsDir)" />
 		<!--<Touch Files="@(LoadFolders);$(C_ModRootDir)\%(Filename)%(Extension)" Time="$(FixupTimestamp)"/>-->
 	</Target>
-	<Target Name="PrepareRelease" BeforeTargets="Pack">
+	<Target Name="PrepareRelease">
 		<Message Importance="high" Text="Preparing a new release…" />
 		<Exec Command="pwsh -nop -File &quot;$(C_UtilsDir)prepareRelease.ps1&quot; -version &quot;$(C_TargetGameVer)&quot; -outputPath &quot;$(C_ModRootDir)$(C_ContentDir)&quot;"
 			WorkingDirectory="$(C_UtilsDir)" />
