@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Code": {
+      "commandName": "Executable",
+      "executablePath": "..\\..\\..\\RimWorldWin64.exe",
+      "nativeDebugging": true
+    }
+  }
+}
