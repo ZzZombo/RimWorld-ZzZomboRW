@@ -5,6 +5,7 @@ using Verse;
 namespace ZzZomboRW.Framework
 {
 	[StaticConstructorOnStartup]
+	[HotSwappable]
 	internal static class StartupHarmonyHelper
 	{
 		static StartupHarmonyHelper()
