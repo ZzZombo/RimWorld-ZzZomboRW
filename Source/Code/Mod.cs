@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
 using Verse;
-
+using ZzZomboRW.Framework;
 
 namespace ZzZomboRW.Template //*FIXME*
 {
 	internal static class MOD
 	{
-		public const string ID = "*FIXME*";
 		public const string NAME = "*FIXME*";
-		public static readonly string NAMESPACE = typeof(Mod).Namespace;
-		public static readonly string FullID = $"{NAMESPACE}.{ID}";
-		public static readonly string FullIDNoDots = FullID.Replace('.', '_');
+		public static readonly string FullID = typeof(Mod).Namespace;
+		public static readonly string ID = $"{FullID.Split(".".ToCharArray(), 1)[1]}";
+		public static readonly string IDNoDots = ID.Replace('.', '_');
 	}
 	[HotSwappable]
 	internal class Mod: Verse.Mod
@@ -42,7 +41,7 @@ namespace ZzZomboRW.Template //*FIXME*
 		}
 		public override string SettingsCategory()
 		{
-			return MOD.FullID.TryTranslate(out var r) ? (string)r : MOD.NAME;
+			return MOD.FullID.TryTranslate(out var r) ? r : MOD.NAME;
 		}
 #endif
 	}
