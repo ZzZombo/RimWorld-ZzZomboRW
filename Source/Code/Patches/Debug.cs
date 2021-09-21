@@ -4,9 +4,8 @@ using Verse;
 
 namespace ZzZomboRW.Framework
 {
-	[HarmonyPatch(typeof(Log), nameof(Log.Notify_MessageReceivedThreadedInternal))]
 	[HotSwappable]
-	internal static class Debug_Log_Notify_MessageReceivedThreadedInternal_Patch
+	public static class LogーPatch
 	{
 		public static int MessageCount
 		{
@@ -14,7 +13,7 @@ namespace ZzZomboRW.Framework
 			private set;
 		}
 		public static uint MessageLimit { get; set; } = 3000;
-		static void Prefix()
+		internal static void Notify_MessageReceivedThreadedInternalーPrefix()
 		{
 			if(!Log.reachedMaxMessagesLimit && !Debug.unityLogger.logEnabled)
 			{
@@ -37,18 +36,13 @@ namespace ZzZomboRW.Framework
 				}
 			}
 		}
-		[HarmonyPatch(typeof(Log), nameof(Log.ResetMessageCount))]
-		[HotSwappable]
-		static class Debug_Log_ResetMessageCount_Patch
+		internal static void ResetMessageCountーPostfix()
 		{
-			static void Postfix()
-			{
-				MessageCount = 0;
-				Log.messageCount = 0;
-				Log.reachedMaxMessagesLimit = false;
-				Debug.unityLogger.logEnabled = true;
-				Log.Message($"[{MOD.NAME}] Messages cleared.");
-			}
+			MessageCount = 0;
+			Log.messageCount = 0;
+			Log.reachedMaxMessagesLimit = false;
+			Debug.unityLogger.logEnabled = true;
+			Log.Message($"[{MOD.NAME}] Messages cleared.");
 		}
 		[HotSwappable]
 		class DebugLog_GameComponent: GameComponent
@@ -65,9 +59,9 @@ namespace ZzZomboRW.Framework
 	}
 
 	[HotSwappable]
-	internal static class StaticConstructorOnStartupUtilityーReportProbablyMissingAttributes_Patch
+	internal static class StaticConstructorOnStartupUtilityーPatch
 	{
-		public static bool Prefix()
+		public static bool ReportProbablyMissingAttributesーPrefix()
 		{
 			Log.Message($"[{MOD.NAME}] Prevented `{nameof(StaticConstructorOnStartupUtility)}.{nameof(StaticConstructorOnStartupUtility.ReportProbablyMissingAttributes)}()`.");
 			return false;
