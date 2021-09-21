@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
-namespace ZzZomboRW
+namespace ZzZomboRW.Template //*FIXME*
 {
 	[HotSwappable]
 	internal class ModSettings: Verse.ModSettings
