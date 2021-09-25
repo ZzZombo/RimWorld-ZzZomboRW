@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Reflection;
-using HarmonyLib;
 using Verse;
 
 namespace ZzZomboRW.Framework
@@ -14,8 +13,8 @@ namespace ZzZomboRW.Framework
 		};
 		static StartupHarmonyHelper()
 		{
-			Mod.Instance.ApplyPatches(delayedPatches);
-			Mod.Instance.harmony.PatchAll(Assembly.GetExecutingAssembly());
+			FrameworkMod.ApplyPatches(FrameworkMod.Instance.harmony, delayedPatches);
+			FrameworkMod.Instance.harmony.PatchAll(Assembly.GetExecutingAssembly());
 		}
 	}
 }

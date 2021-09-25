@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using Verse;
+using ZzZomboRW.Framework;
 
 
 namespace ZzZomboRW.Framework
@@ -13,14 +14,15 @@ namespace ZzZomboRW.Framework
 	{
 	}
 
+	[HotSwappable]
 	internal static class MOD
 	{
 		public const string NAME = "ZzZombo's Framework";
-		public static readonly string FullID = typeof(Mod).Namespace;
+		public static readonly string FullID = typeof(FrameworkMod).Namespace;
 		public static readonly string ID = $"{FullID.Split(".".ToCharArray(), 1)[1]}";
 		public static readonly string IDNoDots = ID.Replace('.', '_');
 	}
-	internal record PatchInfo
+	public record PatchInfo
 	{
 		public Type BaseType, DeclaringType;
 		public string BaseTypeName, MethodName;
@@ -145,9 +147,11 @@ namespace ZzZomboRW.Framework
 	}
 
 	[HotSwappable]
-	internal class Mod: Verse.Mod
+	public class FrameworkMod: Mod
 	{
-		public static Mod Instance;
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible",
+			Justification = "Intended to be accessible for other mods")]
+		public static FrameworkMod Instance;
 		public readonly Harmony harmony;
 		private readonly ModSettings settings;
 		public static readonly List<PatchInfo> immediatePatches = new()
@@ -178,15 +182,15 @@ namespace ZzZomboRW.Framework
 				}
 			}
 		};
-		public Mod(ModContentPack content) : base(content)
+		public FrameworkMod(ModContentPack content) : base(content)
 		{
 			Instance ??= this;
 			this.harmony = new Harmony(MOD.FullID);
 			this.settings = this.GetSettings<ModSettings>();
-			this.ApplyPatches(immediatePatches);
+			ApplyPatches(this.harmony, immediatePatches);
 		}
 
-		internal void ApplyPatches(IEnumerable<PatchInfo> patchList)
+		public static void ApplyPatches(Harmony harmony, IEnumerable<PatchInfo> patchList)
 		{
 			foreach(var (type, patches) in patchList.ToDictionary((a) =>
 			{
@@ -221,7 +225,7 @@ namespace ZzZomboRW.Framework
 							patchInfo.FinalizerMethod is null ? "" : $"finalizer: {stringify(patchInfo.FinalizerMethod)}",
 						}.Where((s) => !s.NullOrEmpty()).Join(delimiter: "\n\t\t");
 						Log.Message(msg);
-						patchInfo.ApplyPatch(this.harmony);
+						patchInfo.ApplyPatch(harmony);
 					}
 					catch(Exception ex)
 					{
