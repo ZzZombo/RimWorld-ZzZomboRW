@@ -13,15 +13,13 @@
 		<AssemblyCopyright>Copyright © ZzZombo 2021</AssemblyCopyright>
 		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<RootNamespace>ZzZomboRW</RootNamespace>
-		<PackageId>*FIXME*</PackageId>
-		<AssemblyName>*FIXME*</AssemblyName>
-		<!-- *FIXME* -->
-		<PackageProjectUrl>https://github.com/ZzZombo/RimWorld-Template</PackageProjectUrl>
-		<!-- *FIXME* -->
-		<RepositoryUrl>https://github.com/ZzZombo/RimWorld-Template.git</RepositoryUrl>
+		<RootNamespace>ZzZomboRW.Framework</RootNamespace>
+		<PackageId>Framework</PackageId>
+		<AssemblyName>Framework</AssemblyName>
+		<PackageProjectUrl>https://github.com/ZzZombo/RimWorld-ZzZomboRW</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/ZzZombo/RimWorld-ZzZomboRW.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<DefineConstants>MOD_SHOW_SETTINGS</DefineConstants>
+		<DefineConstants></DefineConstants>
 	</PropertyGroup>
 	<PropertyGroup Label="Build properties">
 		<TargetFramework>net472</TargetFramework>
