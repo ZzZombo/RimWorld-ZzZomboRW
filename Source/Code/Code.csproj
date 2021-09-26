@@ -127,7 +127,7 @@
 		<PackageReference Include="Krafs.Rimworld.Ref" Version="$(C_RimWorldVersion).*" />
 		<PackageReference Include="Lib.Harmony" Version="2.1.1" ExcludeAssets="runtime" />
 		<Publicize Include="Assembly-CSharp;UnityEngine.CoreModule" />
-		<ProjectReference Include="$(C_ModRootDir)\..\ZzZomboRW\Source\Code\Framework.csproj" Condition="'$(AssemblyName)' != 'Framework'">
+		<ProjectReference Include="$(C_ModRootDir)\..\ZzZomboRW-Framework\Source\Code\Framework.csproj" Condition="'$(AssemblyName)' != 'Framework'">
 			<Private>false</Private>
 			<CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
 			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
